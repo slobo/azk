@@ -29,6 +29,8 @@
   },
   "dependencies": {
     "archiver": "^0.13.1",
+    "azk-parser": "^0.1.8",
+    "babel": "^4.7.16",
     "child-process-promise": "^1.0.0",
     "cli-table": "git+https://github.com/gullitmiranda/cli-table#master",
     "colors": "^0.6.2",
