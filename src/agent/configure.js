@@ -165,7 +165,7 @@ export class Configure extends UIProxy {
     return lazy.docker.version()
       .then((data) => {
         var currentDockerVersion = data.Version;
-        var validDockerVersion   = semver.gte(currentDockerVersion, minDockerVersion);
+        var validDockerVersion   = semver.gte(currentDockerVersion, minDockerVersion, true);
         if ( !validDockerVersion ) {
           throw new DependencyError('check_docker_version_error', {
             current_version: currentDockerVersion,
