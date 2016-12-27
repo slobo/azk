@@ -1,8 +1,7 @@
 import { _, fs, t, path, isBlank, lazy_require } from 'azk';
 import { publish } from 'azk/utils/postal';
 import { async } from 'azk/utils/promises';
-import { ManifestError, NoInternetConnection } from 'azk/utils/errors';
-import { net } from 'azk/utils';
+import { ManifestError } from 'azk/utils/errors';
 import Utils from 'azk/utils';
 import { default as tracker } from 'azk/utils/tracker';
 
@@ -70,12 +69,6 @@ export class Image {
       publish("image.pull.status", {
         type: "action", context: "image", action: "pull_image", data: this
       });
-
-      // Check is online before try pull
-      var currentOnline = yield net.isOnlineCheck();
-      if ( !currentOnline ) {
-        throw new NoInternetConnection();
-      }
 
       yield this._track('pull');
       yield lazy.docker.pull(this.repository, this.tag);
