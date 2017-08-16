@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.20.0 - in progress
+
+* Bug
+  * [Cli] Don't die when downloading docker images when not in terminal
+  * [Cli] Correctly update terminal on window resize
+  * [Agent] Don't check Docker version (docker no longer uses semver)
+
+
 ## v0.19.0 - (2016-09-28)
 
 * Bug
