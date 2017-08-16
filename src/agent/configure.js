@@ -76,7 +76,6 @@ export class Configure extends UIProxy {
         return _.merge(
           { 'agent:dns:port': ports.dns, 'agent:balancer:port': ports.balancer },
           yield this._checkDockerSocket(socket),
-          yield this._checkDockerVersion(),
           yield this._checkAndConfigureNetwork(ports, false),
           yield this._cleanContainers(),
           yield this._checkPorts(ports.dns, dns_key, 'dns', 'AZK_DNS_PORT'),
@@ -161,46 +160,6 @@ export class Configure extends UIProxy {
         });
       }
 
-      return {};
-    });
-  }
-
-  _checkDockerVersion(force = null) {
-    var versions = {
-      required: config('docker:min_version'),
-      current : force || config('docker:version'),
-    };
-
-    // Promisefy
-    var current = null;
-    if (_.isEmpty(versions.current)) {
-      current = lazy.docker.version().then((data) => data.Version);
-    } else {
-      current = promiseResolve(versions.current);
-    }
-
-    return current.then((current) => {
-      var valid = false, err_key = 'check_docker_version_error';
-      try {
-        valid = semver.gte(current, versions.required);
-      } catch (e) {
-        // Try extract version with regex
-        if (_.isEmpty(force)) {
-          var match = current.match(/(\d+\.\d+\.\d+)/);
-          if (match) {
-            current = match[0];
-            return this._checkDockerVersion(current);
-          }
-        }
-        err_key = 'check_docker_version_invalid';
-      }
-
-      if ( !valid ) {
-        throw new DependencyError(err_key, {
-          current_version: current,
-          min_version    : versions.required,
-        });
-      }
       return {};
     });
   }
