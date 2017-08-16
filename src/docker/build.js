@@ -110,7 +110,8 @@ export function build(docker, options) {
         }
 
         // verbose: simple downloading bar from docker API
-        if (opts.verbose && opts.stdout && msg.status === 'Downloading') {
+        // we check for clearLine since stdout is not always a terminal
+        if (opts.verbose && opts.stdout && opts.stdout.clearLine && msg.status === 'Downloading') {
           if (downloading_status_counter > 0) {
             opts.stdout.clearLine();
             opts.stdout.moveCursor(0, -1);
