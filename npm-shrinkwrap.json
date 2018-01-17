@@ -7602,7 +7602,7 @@
     },
     "vboxmanage": {
       "version": "0.0.16",
-      "resolved": "git://github.com/azukiapp/node-vboxmanage.git#49f6d3b192a36a45e9e3341cdc907d39017eaf44",
+      "resolved": "git://github.com/slobo/node-vboxmanage.git#23b2693be67f017dbccca6fdfa1e76f06119cdd8",
       "dependencies": {
         "stream-buffers": {
           "version": "0.2.5"
