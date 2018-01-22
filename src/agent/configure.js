@@ -50,6 +50,7 @@ export class Configure extends UIProxy {
   // Mac OS X configure and checks
   // TODO: Check dependencies versions
   darwin() {
+    return this.linux();
     return this._checksForRequiresVm();
   }
 
@@ -114,6 +115,7 @@ export class Configure extends UIProxy {
 
   _checkAzkVersion() {
     return async(this, function* () {
+      return{};
       try {
         // check connectivity
         var currentOnline = yield net.isOnlineCheck();
@@ -418,12 +420,13 @@ export class Configure extends UIProxy {
     // 2: docker0    inet 10.0.42.1/16 scope global docker0
     //        valid_lft forever preferred_lft forever
     var regex = /docker0.*inet\s(.*?)\//;
-    var cmd   = "/sbin/ip -o addr show";
+    var cmd   = "echo 127.0.0.1";
 
     return lazy.exec(cmd)
       .spread((stdout) => {
         var match = stdout.match(regex);
         if (match) { return match[1]; }
+        return '127.0.0.1';
         throw new Error('Get ip from docker0 interface');
       });
   }

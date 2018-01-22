@@ -36,6 +36,7 @@ var net = {
   checkPort(port, host = 'localhost') {
     return ninvoke(portscanner, "checkPortStatus", port, host)
       .then((status) => {
+        console.log("Port status", port, host, status);
         return status == 'closed';
       });
   },

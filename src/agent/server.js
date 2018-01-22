@@ -18,7 +18,7 @@ var Server = {
   stop_handler() {},
 
   // Warning: Only use test in mac
-  vm_enabled: !config('agent:dev:force_disable_vm'),
+  vm_enabled: false, //!config('agent:dev:force_disable_vm'),
 
   // TODO: log start machine steps
   start(stop_handler) {
@@ -29,6 +29,7 @@ var Server = {
 
       // Start api
       yield Api.start();
+      console.log("Requires VM?", config('agent:requires_vm'));
 
       // Virtual machine is required?
       if (this.vm_enabled && config('agent:requires_vm')) {

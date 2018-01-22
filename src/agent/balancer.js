@@ -72,6 +72,7 @@ var Balancer = {
 
   // Balancer service and subsystems controll
   start(vm_enabled = true) {
+    console.log("Balancer.start('vm_enabled' =", vm_enabled, ')');
     return Tools.async_status("balancer", this, function* () {
       if (!this.isRunnig()) {
         var socket = config('paths:memcached_socket');
@@ -192,6 +193,7 @@ var Balancer = {
 
   // TODO: check if system is running
   _run_system(system_name, options = {}) {
+    console.log("Ballancer run system", system_name, options);
     return Tools.async_status("balancer", this, function* (change_status) {
       if (this.running[system_name]) {
         return true;

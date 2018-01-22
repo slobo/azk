@@ -11,7 +11,7 @@ var namespace = envs('AZK_NAMESPACE');
 
 // Use virtual machine or not?
 var default_vm  = os.platform() == "linux" ? false : true;
-var requires_vm = envs('AZK_USE_VM', default_vm);
+var requires_vm = false; // envs('AZK_USE_VM', default_vm);
 
 // Data mount folder path
 var data_mnt_path = requires_vm ? '/mnt/sda1/azk' : data_path;
@@ -123,7 +123,7 @@ var options = mergeConfig({
     },
     agent: {
       requires_vm     : requires_vm,
-      portrange_start : 11000,
+      portrange_start : 80,
       check_interval  : envs('AZK_AGENT_CHECK_INTERVAL', 10000),
       wait_max_timeout: envs('AZK_AGENT_WAIT_MAX_TIMEOUT', 30000),
       balancer: {

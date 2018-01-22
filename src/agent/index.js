@@ -65,6 +65,11 @@ var Agent = {
     });
   },
 
+  restart() {
+    return this.stop().then(() => this.start());
+    // return this.start();
+  },
+
   gracefullyStop() {
     var pid = this.agentPid();
     this.change_status("stopping");
