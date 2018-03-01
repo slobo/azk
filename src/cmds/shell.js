@@ -56,7 +56,7 @@ export default class Shell extends CliTrackerController {
       };
 
       // Support extra envs, ports and mount volumes
-      run_options.envs       = this._parse_option(options.env  , /.+=.+/, '=', 'invalid_env');
+      run_options.envs       = this._parse_option(options.env  , /.+=/, '=', 'invalid_env');
       run_options.shell_term = process.env.TERM;
       run_options.mounts     = this._parse_option(options.mount, /.+:.+:?.*/, ':', 'invalid_mount', 1, (opts) => {
         return { type: (opts[2] ? opts[1] : 'path'), value: (opts[2] ? opts[2] : opts[0]) };
