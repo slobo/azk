@@ -212,7 +212,7 @@ var Run = {
 
   stop(system, instances, options = {}) {
     options = _.defaults(options, {
-      kill: false,
+      kill: config('docker:kill_on_stop'),
       remove: true,
     });
 

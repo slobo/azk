@@ -103,6 +103,7 @@ var options = mergeConfig({
       build_name      : 'azkbuild',
       image_default   : 'azukiapp/azktcl:0.0.2',
       remove_container: envs('AZK_REMOVE_CONTAINER', true),
+      kill_on_stop    : envs('AZK_KILL_ON_STOP', false),
       run: {
         timeout: 10000
       }
