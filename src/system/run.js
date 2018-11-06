@@ -1,7 +1,7 @@
 import { _, t, lazy_require, isBlank } from 'azk';
 import { config, log, path } from 'azk';
 import { subscribe, publish } from 'azk/utils/postal';
-import { defer, async, asyncUnsubscribe, promiseResolve, thenAll } from 'azk/utils/promises';
+import { defer, async, asyncUnsubscribe, promisifyAll, promiseResolve, thenAll } from 'azk/utils/promises';
 import { ImageNotAvailable, SystemRunError, RunCommandError, NotBeenImplementedError } from 'azk/utils/errors';
 import { Balancer } from 'azk/system/balancer';
 import net from 'azk/utils/net';
@@ -11,6 +11,7 @@ var lazy = lazy_require({
   docker      : ['azk/docker', 'default'],
   Client      : ['azk/agent/client'],
   colors      : ['azk/utils/colors'],
+  MemcachedDriver: 'memcached',
 });
 
 var Run = {
@@ -67,7 +68,7 @@ var Run = {
     return async(this, function* () {
       options = _.defaults(options, {
         remove: false,
-        sequencies: yield this._getSequencies(system)
+        sequencies: {shell: yield this._nextShellSeqNumber(system) },
       });
 
       // Sync folders if set in mounts section at Azkfile.js
@@ -473,6 +474,32 @@ var Run = {
       }
     });
   },
+
+  // Centralized Sequence Number control for Shell
+  // This is to make it possible to call `azk shell <sysname>` concurrently for same <sysname>
+  get memCached() {
+    if (!this.mem_client) {
+      var socket = config('paths:memcached_socket');
+      log.debug("Connecting to memcache", socket);
+      this.mem_client = promisifyAll(new lazy.MemcachedDriver(socket));
+    }
+    return this.mem_client;
+  },
+
+  _nextShellSeqNumber(system) {
+    var key = `container_shell_seq_num:${system.manifest.namespace}:${system.name}`;
+
+    log.debug(`Obtaining next shell sequence number from ${key}`);
+
+    // We first try to add new key with value "1"
+    // since we can't just try to increment if it doesn't exist
+    return this.memCached.addAsync(key, 1, 0).then(
+      // if added was successful, then no other seqNum exists, so this is the first one
+      ok =>  1,
+      // if add failed, it should be safe to increment and promise will be resolved with new value
+      err => this.memCached.incrAsync(key, 1)
+    )
+  }
 
 };
 

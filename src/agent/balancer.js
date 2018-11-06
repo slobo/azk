@@ -124,7 +124,9 @@ var Balancer = {
   start_memcached(socket) {
     return async(this, function* () {
       var pid  = config("paths:memcached_pid");
-      var cmd  = [ 'nvm', 'memcachedjs', '--socket', socket ];
+      // MemcachedJS doesn't support INCR, so we launch system wide memcached instead
+      // var cmd  = [ 'nvm', 'memcachedjs', '--socket', socket ];
+      var cmd  = [ 'nvm', 'memcached', '-s', socket ];
       var name = "memcached";
 
       // Remove socket before start
