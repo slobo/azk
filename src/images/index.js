@@ -27,6 +27,7 @@ export class Image {
         this.name = options[this.provider];
       } else if (this.provider === 'dockerfile') {
         this.path = options[this.provider];
+        this.target = options.target;
       }
     } else {
       if (this.provider === 'dockerfile') {
@@ -34,6 +35,7 @@ export class Image {
       }
       this.repository = options.repository;
       this.tag        = this.tag || options.tag || DEFAULT_TAG;
+      this.target     = options.target;
     }
 
     if (_.isEmpty(this.name)) {
@@ -86,6 +88,7 @@ export class Image {
       let build_opts = {
         dockerfile: this.path,
         tag: this.name,
+        target: this.target,
         verbose: options.provision_verbose,
         stdout: options.stdout
       };

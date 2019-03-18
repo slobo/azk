@@ -88,6 +88,10 @@ export function build(docker, options) {
     var done = originalDefer();
     var build_options = { t: opts.tag, forcerm: true, nocache: !opts.cache, q: !opts.verbose };
 
+    if (!_.isEmpty(opts.target)) {
+      build_options.target = opts.target;
+    }
+
     // Start stream
     var stream = yield docker.buildImage(archive, build_options).catch((err) => {
       throw new DockerBuildError('server_error', { dockerfile, err });
