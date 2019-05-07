@@ -128,6 +128,7 @@ var options = mergeConfig({
       check_interval  : envs('AZK_AGENT_CHECK_INTERVAL', 10000),
       wait_max_timeout: envs('AZK_AGENT_WAIT_MAX_TIMEOUT', 30000),
       balancer: {
+        debug: envs('AZK_BALANCER_DEBUG', false),
         ip  : new Dynamic("agent:balancer:ip"),
         host: envs('AZK_BALANCER_HOST'),
         port: envs('AZK_BALANCER_PORT', 80),

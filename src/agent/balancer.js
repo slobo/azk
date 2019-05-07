@@ -339,6 +339,7 @@ var Balancer = {
       user: process.getuid(),
       server: {
         accessLog: log,
+        debug:          config('agent:balancer:debug') && true,
         workers:        config('agent:balancer:workers'),
         maxSockets:     config('agent:balancer:worker_max_sockets'),
         tcpTimeout:     config('agent:balancer:tcp_timeout'),
