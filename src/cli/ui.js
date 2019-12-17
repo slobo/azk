@@ -43,7 +43,7 @@ var UI = {
   },
 
   output(string, ...args) {
-    this.stdout().write(lazy.printf(string || "", ...args) + "\n");
+    this.stdout().write((string || "") + "\n");
   },
 
   tOutput(...args) {
@@ -64,7 +64,7 @@ var UI = {
     }, 0);
 
     _.each(rows, (row) => {
-      this.output("%s%-*s  %s", ident, row.shift(), size, ...row);
+      this.output(lazy.printf("%s%-*s  %s", ident, row.shift(), size, ...row));
     });
   },
 
