@@ -60,7 +60,7 @@ export class Configure extends UIProxy {
     } else {
       var socket = config('docker:socket');
       return async(this, function* () {
-        yield this._checkAzkVersion();
+        // yield this._checkAzkVersion();
         yield lazy.Migrations.run(this);
 
         yield this._checkRsyncVersion();
@@ -88,7 +88,7 @@ export class Configure extends UIProxy {
 
   _checksForRequiresVm() {
     return async(this, function* () {
-      yield this._checkAzkVersion();
+      // yield this._checkAzkVersion();
       yield lazy.Migrations.run(this);
 
       yield this._checkRsyncVersion();
