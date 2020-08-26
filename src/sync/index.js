@@ -93,7 +93,7 @@ export default class Sync {
         throw { err: message, code: error_code };
       }
 
-      var _version = message.match(/.*version\ (\d+\.\d+\.\d+)/);
+      var _version = message.match(/.*version\ v?(\d+\.\d+\.\d+)/);
       if (!_.isEmpty(_version) && _version.length >= 2) {
         return _version[1];
       } else {

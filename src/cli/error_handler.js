@@ -29,7 +29,8 @@ export function handler(error, options = {}) {
     let isError = error instanceof Error || error instanceof AzkError;
     if (!isError) {
       // no error type
-      log.debug(`[error-handler] expected an error but got: "${error}"`);
+      let error_str = JSON.stringify(error);
+      log.debug(`[error-handler] expected an error but got: ${error_str}`);
       return 1;
     }
 
