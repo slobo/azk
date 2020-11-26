@@ -57,7 +57,7 @@ export function build(docker, options) {
 
     // Create a tar and includes Dockerfile
     var archive = lazy.archiver('tar');
-    var src     = ["**", ".*", "!Dockerfile"];
+    var src     = ["**", ".*", "**/.*", "!Dockerfile"];
     var cwd     = path.dirname(dockerfile);
 
     // Filter with .dockerignore
